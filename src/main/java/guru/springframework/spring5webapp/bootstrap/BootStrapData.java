@@ -29,28 +29,39 @@ public class BootStrapData implements CommandLineRunner {
         System.out.println("Started in Bootstrap");
 
         //Spring Data JPA is utilizing Hibernate to store these in the DB
+        Publisher publisher = new Publisher("Bob", "123 Unicorn Way", "WC", "Spiral", "12345");
+        publisherRepository.save(publisher);
+
+        System.out.println("Number of publishers: " + publisherRepository.count());
+
         Author eric = new Author("Eric", "Evans");
         Book ddd = new Book("Domain Driven Design", "12345");
         eric.getBooks().add(ddd);
         ddd.getAuthors().add(eric);
+
+        ddd.setPublisher(publisher);
+        publisher.getBooks().add(ddd);
+
         // injects the repositories when called
         authorRepository.save(eric);
         bookRepository.save(ddd);
+        publisherRepository.save(publisher);
 
         Author rod = new Author("Rod", "Johnson");
         Book noEJB = new Book("J2EE Development without EJB", "3569784334");
         rod.getBooks().add(noEJB);
         noEJB.getAuthors().add(rod);
 
+        noEJB.setPublisher(publisher);
+        publisher.getBooks().add(noEJB);
+
         authorRepository.save(rod);
         bookRepository.save(noEJB);
+        publisherRepository.save(publisher);
 
         System.out.println("Number of Books: " + bookRepository.count());
 
-        Publisher publisher = new Publisher("Bob", "123 Unicorn Way", "WC", "Spiral", "12345");
-        publisherRepository.save(publisher);
-
-        System.out.println("Number of publishers: " + publisherRepository.count());
+        System.out.println("Publisher # of Books: " + publisher.getBooks().size());
 
     }
 }
