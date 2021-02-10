@@ -19,6 +19,6 @@ public class BookController {
 
         model.addAttribute("books", bookRepository.findAll());
 
-        return "books";
+        return "books/list"; // Actually a path, no need to add file extension
     }
 }
